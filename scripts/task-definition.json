@@ -17,7 +17,7 @@
             "dependsOn": [
                 {
                     "containerName": "${IMAGE_NAME}-redis",
-                    "condition": "HEALTHY"
+                    "condition": "START"
                 }
             ],
             "essential": true,
