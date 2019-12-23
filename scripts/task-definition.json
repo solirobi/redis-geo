@@ -11,7 +11,7 @@
             "links": ["${IMAGE_NAME}-redis"],
             "portMappings": [
                 {
-                    "containerPort": 5000,
+                    "containerPort": 4999,
                     "hostPort": 0,
                     "protocol": "tcp"
                 }
@@ -29,10 +29,6 @@
                     "name": "LETSENCRYPT_EMAIL",
                     "value": "${LETSENCRYPT_EMAIL}"
                 },
-                // {
-                //     "name": "REDIS_HOST",
-                //     "value": "${IMAGE_NAME}-redis"
-                // },
                 {
                     "name": "HSTS",
                     "value": "off"
