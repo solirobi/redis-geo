@@ -43,6 +43,10 @@
                 {
                     "name": "HSTS",
                     "value": "off"
+                },
+                {
+                    "name": "REDIS_HOST",
+                    "value": "${IMAGE_NAME}-redis"
                 }
             ]
         }
