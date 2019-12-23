@@ -22,8 +22,12 @@
                     "value": "${AWS_VIRTUAL_HOST}"
                 },
                 {
-                    "name": "SERVICESTACK_LICENSE",
-                    "value": "${SERVICESTACK_LICENSE}"
+                    "name": "LETSENCRYPT_HOST",
+                    "value": "${LETSENCRYPT_HOST}"
+                },
+                {
+                    "name": "LETSENCRYPT_EMAIL",
+                    "value": "${LETSENCRYPT_EMAIL}"
                 },
                 {
                     "name": "REDIS_HOST",
