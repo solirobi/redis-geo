@@ -18,7 +18,7 @@
             "links": ["${IMAGE_NAME}-redis"],
             "portMappings": [
                 {
-                    "containerPort": 4999,
+                    "containerPort": 5000,
                     "hostPort": 0,
                     "protocol": "tcp"
                 }
