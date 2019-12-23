@@ -14,6 +14,10 @@
             "name": "${IMAGE_NAME}",
             "cpu": 128,
             "memory": 256,
+            "dependsOn": {
+                "containerName": "${IMAGE_NAME}-redis",
+                "condition": "HEALTHY"
+            },
             "essential": true,
             "links": ["${IMAGE_NAME}-redis"],
             "portMappings": [
