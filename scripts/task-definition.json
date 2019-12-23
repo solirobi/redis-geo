@@ -29,10 +29,10 @@
                     "name": "LETSENCRYPT_EMAIL",
                     "value": "${LETSENCRYPT_EMAIL}"
                 },
-                {
-                    "name": "REDIS_HOST",
-                    "value": "${IMAGE_NAME}-redis"
-                },
+                // {
+                //     "name": "REDIS_HOST",
+                //     "value": "${IMAGE_NAME}-redis"
+                // },
                 {
                     "name": "HSTS",
                     "value": "off"
