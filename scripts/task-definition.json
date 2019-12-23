@@ -13,7 +13,7 @@
             "image": "${AWS_ECS_REPO_DOMAIN}/${IMAGE_NAME}:${IMAGE_VERSION}",
             "name": "${IMAGE_NAME}",
             "cpu": 128,
-            "memory": 256,
+            "memory": 255,
             "dependsOn": [
                 {
                     "containerName": "${IMAGE_NAME}-redis",
