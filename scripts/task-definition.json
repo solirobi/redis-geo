@@ -3,6 +3,23 @@
     "networkMode": "bridge",
     "containerDefinitions": [
         {
+            "name": "nginx",
+            "image": "jwilder/nginx-proxy",
+            "memory": "256",
+            "cpu": "256",
+            "essential": true,
+            "portMappings": [
+                {
+                "containerPort": "80",
+                "protocol": "tcp"
+                }
+           ],
+           "links": [
+                "${IMAGE_NAME}-redis",
+                "${IMAGE_NAME}"
+            ]
+        },
+        {
             "name": "${IMAGE_NAME}-redis",
             "image": "redis:3.2",
             "cpu": 128,
@@ -17,6 +34,10 @@
             "dependsOn": [
                 {
                     "containerName": "${IMAGE_NAME}-redis",
+                    "condition": "START"
+                },
+                {
+                    "containerName": "nginx",
                     "condition": "START"
                 }
             ],
