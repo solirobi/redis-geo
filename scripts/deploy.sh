@@ -12,7 +12,8 @@ echo "***"
 echo "***"
 echo "***"
 echo "***"
-pip install -U pip
+python --version
+sudo pip install -U pip
 echo "***"
 echo "***"
 echo "***"
