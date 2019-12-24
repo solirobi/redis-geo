@@ -3,7 +3,10 @@
     "networkMode": "bridge",
     "volumes": [
         {
-            "name": "/var/run/docker.sock"
+            "name": "socket",
+            "host": {
+                "sourcePath": "/var/run/docker.sock"
+            }
         }
     ],
     "containerDefinitions": [
@@ -15,7 +18,7 @@
             "essential": true,
             "mountPoints": [
                 {
-                    "sourceVolume": "/var/run/docker.sock",
+                    "sourceVolume": "socket",
                     "containerPath": "/tmp/docker.sock",
                     "readOnly": true
                 }
