@@ -31,16 +31,16 @@
             "name": "${IMAGE_NAME}",
             "cpu": 128,
             "memory": 256,
-            "dependsOn": [
-                {
-                    "containerName": "${IMAGE_NAME}-redis",
-                    "condition": "START"
-                },
-                {
-                    "containerName": "nginx",
-                    "condition": "START"
-                }
-            ],
+            // "dependsOn": [
+            //     {
+            //         "containerName": "${IMAGE_NAME}-redis",
+            //         "condition": "START"
+            //     },
+            //     {
+            //         "containerName": "nginx",
+            //         "condition": "START"
+            //     }
+            // ],
             "essential": true,
             "links": ["${IMAGE_NAME}-redis"],
             "portMappings": [
