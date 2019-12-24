@@ -16,29 +16,42 @@ envsubst < task-definition.json > new-task-definition.json
 
 eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email | sed 's|https://||') #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
 
+echo "********************************************************"
+echo "***"
+
 if [ $(aws ecr describe-repositories | jq --arg x $IMAGE_NAME '[.repositories[] | .repositoryName == $x] | any') == "true" ]; then
-    echo "Found ECS Repository $IMAGE_NAME"
+    echo "*** Found ECS Repository $IMAGE_NAME"
 else
-    echo "ECS Repository doesn't exist, Creating $IMAGE_NAME ..."
+    echo "*** ECS Repository doesn't exist, Creating $IMAGE_NAME ..."
     aws ecr create-repository --repository-name $IMAGE_NAME
 fi
+echo "***"
 
 docker push $AWS_ECS_REPO_DOMAIN/$IMAGE_NAME:$IMAGE_VERSION
+echo "*** pushed $IMAGE_NAME:$IMAGE_VERSION to $AWS_ECS_REPO_DOMAIN"
 
 aws ecs register-task-definition --cli-input-json file://new-task-definition.json --region $AWS_DEFAULT_REGION > /dev/null # Create a new task revision
+echo "*** registered task definition"
+
 TASK_REVISION=$(aws ecs describe-task-definition --task-definition $ECS_TASK --region $AWS_DEFAULT_REGION | jq '.taskDefinition.revision') #get latest revision
 SERVICE_ARN="arn:aws:ecs:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_NUMBER:service/$ECS_SERVICE"
 ECS_SERVICE_EXISTS=$(aws ecs list-services --region $AWS_DEFAULT_REGION --cluster $AWS_ECS_CLUSTER_NAME | jq '.serviceArns' | jq 'contains(["'"$SERVICE_ARN"'"])')
+
+echo "********************************************************"
+echo "***"
 if [ "$ECS_SERVICE_EXISTS" == "true" ]; then
-    echo "ECS Service already exists, Updating $ECS_SERVICE ..."
+    echo "*** ECS Service already exists, Updating $ECS_SERVICE ..."
     aws ecs update-service --cluster $AWS_ECS_CLUSTER_NAME --service $ECS_SERVICE --task-definition "$ECS_TASK:$TASK_REVISION" --desired-count 1 --region $AWS_DEFAULT_REGION > /dev/null #update service with latest task revision
 else
-    echo "Creating ECS Service $ECS_SERVICE ..."
+    echo "*** Creating ECS Service $ECS_SERVICE ..."
     aws ecs create-service --cluster $AWS_ECS_CLUSTER_NAME --service-name $ECS_SERVICE --task-definition "$ECS_TASK:$TASK_REVISION" --desired-count 1 --region $AWS_DEFAULT_REGION > /dev/null #create service
 fi
+echo "***"
+
 if [ "$(aws ecs list-tasks --service-name $ECS_SERVICE --region $AWS_DEFAULT_REGION | jq '.taskArns' | jq 'length')" -gt "0" ]; then
     TEMP_ARN=$(aws ecs list-tasks --service-name $ECS_SERVICE --region $AWS_DEFAULT_REGION | jq '.taskArns[0]') # Get current running task ARN
     TASK_ARN="${TEMP_ARN%\"}" # strip double quotes
     TASK_ARN="${TASK_ARN#\"}" # strip double quotes
     aws ecs stop-task --task $TASK_ARN --region $AWS_DEFAULT_REGION > /dev/null # Stop current task to force start of new task revision with new image
+    echo "*** stopped task $TASK_ARN"
 fi
