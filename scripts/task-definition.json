@@ -5,12 +5,12 @@
         {
             "name": "nginx",
             "image": "jwilder/nginx-proxy",
-            "memory": "256",
-            "cpu": "256",
+            "memory": 256,
+            "cpu": 256,
             "essential": true,
             "portMappings": [
                 {
-                "containerPort": "80",
+                "containerPort": 80,
                 "protocol": "tcp"
                 }
            ],
@@ -30,7 +30,7 @@
             "image": "${AWS_ECS_REPO_DOMAIN}/${IMAGE_NAME}:${IMAGE_VERSION}",
             "name": "${IMAGE_NAME}",
             "cpu": 128,
-            "memory": 255,
+            "memory": 256,
             "dependsOn": [
                 {
                     "containerName": "${IMAGE_NAME}-redis",
