@@ -10,8 +10,9 @@
             "essential": true,
             "mountPoints": [
                 {
-                    "containerPath": "/tmp/docker.sock:ro",
-                    "sourceVolume": "/var/run/docker.sock"
+                    "containerPath": "/tmp/docker.sock",
+                    "sourceVolume": "/var/run/docker.sock",
+                    "readOnly": true
                 }
             ],
             "portMappings": [
