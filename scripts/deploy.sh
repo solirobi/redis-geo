@@ -13,7 +13,8 @@ echo "***"
 echo "***"
 echo "***"
 python --version
-sudo pip install -U pip
+sudo apt-get install python
+# sudo pip install -U pip
 echo "***"
 echo "***"
 echo "***"
