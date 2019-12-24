@@ -1,6 +1,11 @@
 {
     "family": "${ECS_TASK}",
     "networkMode": "bridge",
+    "volumes": [
+        {
+            "name": "/var/run/docker.sock"
+        }
+    ],
     "containerDefinitions": [
         {
             "name": "nginx",
@@ -10,8 +15,8 @@
             "essential": true,
             "mountPoints": [
                 {
-                    "containerPath": "/tmp/docker.sock",
                     "sourceVolume": "/var/run/docker.sock",
+                    "containerPath": "/tmp/docker.sock",
                     "readOnly": true
                 }
             ],
